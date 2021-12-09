@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.huazi.note</groupId>
+    <artifactId>web-common-bom</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+
+    <name>web-common-bom</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <easycloud.common.version>${project.version}</easycloud.common.version>
+        <spring-boot.version>2.6.1</spring-boot.version>
+        <fastjson.version>1.2.75</fastjson.version>
+    </properties>
+
+    <!-- 定义全局jar版本,模块使用需要再次引入但不用写版本号-->
+    <dependencyManagement>
+        <dependencies>
+            <!--web 模块-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
+                <exclusions>
+                    <!--排除tomcat依赖-->
+                    <exclusion>
+                        <artifactId>spring-boot-starter-tomcat</artifactId>
+                        <groupId>org.springframework.boot</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <!--<plugins>
+            &lt;!&ndash;打包jar 与git commit 关联插件&ndash;&gt;
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+            </plugin>
+            &lt;!&ndash;代码格式插件，默认使用spring 规则&ndash;&gt;
+            <plugin>
+                <groupId>io.spring.javaformat</groupId>
+                <artifactId>spring-javaformat-maven-plugin</artifactId>
+            </plugin>
+        </plugins>-->
+    </build>
+</project>
