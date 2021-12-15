@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>redis</module>
         <module>web-common</module>
         <module>websocket</module>
         <module>springboot-admin</module>
@@ -25,11 +26,14 @@
 
     <dependencies>
 
-        <!-- redis 2.6.1有问题？？-->
+        <!-- test-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-            <version>2.6.0</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
         </dependency>
 
         <!--Lombok-->
@@ -45,12 +49,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!--springSecurity -->
+        <!-- JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
         <!--mysql -->
         <dependency>
             <groupId>mysql</groupId>
