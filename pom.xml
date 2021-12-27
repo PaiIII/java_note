@@ -16,6 +16,7 @@
         <module>websocket</module>
         <module>springboot-admin</module>
         <module>security</module>
+        <module>rocketmq</module>
     </modules>
 
     <properties>
