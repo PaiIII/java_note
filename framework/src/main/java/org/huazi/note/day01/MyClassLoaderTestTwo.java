@@ -77,7 +77,7 @@ public class MyClassLoaderTestTwo {
     public static void main(String[] args) {
         MyClassLoader classLoader = new MyClassLoader("E:/test");
         //注意：需要删除项目里的User1类(因为会委托上级加载器，加载到了User1，就会使AppClassLoader)
-        Class clazz = classLoader.loadClass("org.huazi.note.common.User1");
+        Class clazz = classLoader.loadClass("org.huazi.note.common.User1");//java.lang.String 会报错。包含核心API
         Object obj = clazz.newInstance();
         Method method = clazz.getDeclaredMethod("sout", null);
         method.invoke(obj, null);
