@@ -6,9 +6,13 @@ import java.io.FileInputStream;
 import java.lang.reflect.Method;
 
 /**
- * 自定义类加载器:打破双亲委派机制
+ * 自定义类加载器:打破双亲委派机制：重写findClass方法+loadClass方法
  * 同一个JVM内，两个相同包名和类名的类对象可以共存，因为他们的类加载器可以不一样，所以看两个类对象是否是同一个，
  * 除了看类的包名和类名是否都相同之外，还需要他们的类加载器也是同一个才能认为他们是同一个。
+ * <p>
+ * 沙箱安全机制：自己写的java.lang.String.class类不会被加载，这样便可以防止核心API库被随意篡改
+ * 避免类的重复加载：当父亲已经加载了该类时，就没有必要子ClassLoader再加载一次，保证被加载类的唯一性
+ * https://www.cnblogs.com/enroute/p/13865807.html
  *
  * @author huazi
  * @date 2022/2/21 10:16
@@ -55,7 +59,7 @@ public class MyClassLoaderTestTwo {
                     // If still not found, then invoke findClass in order
                     // to find the class.
                     long t1 = System.nanoTime();
-                    //非自定义类，走双亲委派机制
+                    //注意：非自定义类，走双亲委派机制
                     if (!name.startsWith("org.huazi.note.common")) {
                         c = this.getParent().loadClass(name);
                     } else {

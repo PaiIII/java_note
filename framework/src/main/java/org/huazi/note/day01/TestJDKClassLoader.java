@@ -6,10 +6,8 @@ import sun.misc.Launcher;
 import java.net.URL;
 
 /**
- * 双亲委派机制:
- * 沙箱安全机制：自己写的java.lang.String.class类不会被加载，这样便可以防止核心API库被随意篡改
- * 避免类的重复加载：当父亲已经加载了该类时，就没有必要子ClassLoader再加载一次，保证被加载类的唯一性
- * https://www.cnblogs.com/enroute/p/13865807.html
+ * 类加载器:引导类加载器、扩展类加载、程序应用类加载器
+ *
  * @author huazi
  * @date 2022/2/19 11:41
  */

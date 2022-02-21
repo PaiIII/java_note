@@ -6,7 +6,11 @@ import java.io.FileInputStream;
 import java.lang.reflect.Method;
 
 /**
- * 自定义类加载器:实现双亲委派机制：加载其他路径下的类
+ * 自定义类加载器:实现双亲委派机制：加载其他路径下的类：重写findClass方法
+ * <p>
+ * 沙箱安全机制：自己写的java.lang.String.class类不会被加载，这样便可以防止核心API库被随意篡改
+ * 避免类的重复加载：当父亲已经加载了该类时，就没有必要子ClassLoader再加载一次，保证被加载类的唯一性
+ * https://www.cnblogs.com/enroute/p/13865807.html
  *
  * @author huazi
  * @date 2022/2/21 10:16
