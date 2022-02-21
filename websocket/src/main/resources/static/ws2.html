@@ -17,7 +17,7 @@
     if ('WebSocket' in window) {
         console.log("浏览器支持Websocket");
         console.log("username:"+username);
-        websocket = new WebSocket('ws://192.168.1.192:2444/tongwei/websocket/' + username);
+        websocket = new WebSocket('ws://localhost:6060/websocket/' + username);
     } else {
         alert('当前浏览器 不支持 websocket');
     }
@@ -37,7 +37,7 @@
         debugger;
         console.log("收到消息");
         console.log(event.data);
-        setMessageInnerHTML(event.data);
+        setMessageInnerHTML(event.data.name);
         // websocket.send(event.data);//向后端发送消息
         // websocket.close();//关闭链接
     };

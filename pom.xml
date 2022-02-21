@@ -17,16 +17,25 @@
         <module>springboot-admin</module>
         <module>security</module>
         <module>rocketmq</module>
+        <module>developer-test</module>
+        <module>framework</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>2.6.1</spring-boot.version>
         <fastjson.version>1.2.75</fastjson.version>
+        <hutool.version>5.7.12</hutool.version>
         <docker.image>huazi</docker.image>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
 
         <!-- test-->
         <dependency>
