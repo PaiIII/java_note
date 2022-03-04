@@ -19,6 +19,7 @@
         <module>rocketmq</module>
         <module>developer-test</module>
         <module>framework</module>
+        <module>export</module>
     </modules>
 
     <properties>
