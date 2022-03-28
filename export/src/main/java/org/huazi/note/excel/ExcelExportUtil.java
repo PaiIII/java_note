@@ -4,6 +4,7 @@ package org.huazi.note.excel;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
+import lombok.experimental.UtilityClass;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.util.CollectionUtils;
 
@@ -16,6 +17,7 @@ import java.util.Map;
 /**
  * Excel导出工具类
  */
+@UtilityClass
 public class ExcelExportUtil {
 
     /**
@@ -27,7 +29,7 @@ public class ExcelExportUtil {
      * @param fileName     导出文件名，可以中文
      * @param lstCellStyle 单独设置某些列单元格样式左对齐:从0开始
      */
-    public static void exportExcel(HttpServletResponse response, List<?> list, Map<String, String> map, String fileName, List<Integer> lstCellStyle) {
+    public void exportExcel(HttpServletResponse response, List<?> list, Map<String, String> map, String fileName, List<Integer> lstCellStyle) {
         if (CollectionUtils.isEmpty(list) || map.isEmpty()) {
             return;
         }
@@ -69,7 +71,7 @@ public class ExcelExportUtil {
      * @param sheet
      * @param size  因为for循环从0开始，size值为 列数-1
      */
-    public static void setSizeColumn(Sheet sheet, int size) {
+    public void setSizeColumn(Sheet sheet, int size) {
         for (int columnNum = 0; columnNum <= size; columnNum++) {
             int columnWidth = sheet.getColumnWidth(columnNum) / 256;
             for (int rowNum = 0; rowNum <= sheet.getLastRowNum(); rowNum++) {
@@ -100,7 +102,7 @@ public class ExcelExportUtil {
      * @param writer ExcelWriter
      * @param index  列数
      */
-    public static void setCellStyleLeft(ExcelWriter writer, int index) {
+    public void setCellStyleLeft(ExcelWriter writer, int index) {
         Sheet sheet = writer.getSheet();
         for (int rowNum = 1; rowNum <= sheet.getLastRowNum(); rowNum++) {//行
             CellStyle cellStyle = writer.createCellStyle(index, rowNum);
