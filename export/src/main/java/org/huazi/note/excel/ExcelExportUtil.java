@@ -11,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -51,8 +52,9 @@ public class ExcelExportUtil {
         //out为OutputStream，需要写出到的目标流
         try {
             response.setContentType("application/vnd.ms-excel;charset=utf-8");
-            response.setHeader("Content-Disposition",
-                    "attachment; filename=\"" + new String((fileName + ".xls").getBytes("gbk"), "iso-8859-1") + "\"");
+            fileName = URLEncoder.encode(fileName + ".xls", "UTF-8");
+            response.setHeader("Access-Control-Expose-Headers", "filename");
+            response.setHeader("filename", fileName);
             out = response.getOutputStream();
             writer.flush(out, true);
         } catch (IOException e) {
