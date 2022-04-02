@@ -1,6 +1,7 @@
 package org.huazi.note.word;
 
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 import java.util.Map;
 
 /**
@@ -10,9 +11,10 @@ public class WordUtil {
 
     public boolean createDoc(HttpServletResponse response, Map dataMap, String path, String srcFileName, String exportFileName) {
         try {
-            response.setHeader("Content-Disposition",
-                    "attachment; filename=\"" + new String(exportFileName.getBytes("gbk"), "iso-8859-1") + "\"");
             response.setContentType("application/octet-stream;charset=UTF-8");
+            String fileName = URLEncoder.encode(exportFileName, "UTF-8");
+            response.setHeader("Access-Control-Expose-Headers", "filename");
+            response.setHeader("filename", fileName);
             FreemarkerUtils.build(this.getClass(), path).setTemplate(srcFileName).generate(dataMap,
                     response.getOutputStream());
             return true;
