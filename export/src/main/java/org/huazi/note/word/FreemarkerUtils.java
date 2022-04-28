@@ -5,6 +5,7 @@ import freemarker.cache.NullCacheStorage;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
+import org.huazi.note.word.UtilException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,10 +19,10 @@ import java.util.Map;
 
 public class FreemarkerUtils {
     private static final Logger log = LoggerFactory.getLogger(FreemarkerUtils.class);
-    private Configuration configuration;
-    private String prefix;
-    private ThreadLocal<Template> currentTemplate = new ThreadLocal();
-    private static final Map<String, Template> TEMPLATE_CACHE = new HashMap();
+    private final Configuration configuration;
+    private final String prefix;
+    private final ThreadLocal<Template> currentTemplate = new ThreadLocal<>();
+    private static final Map<String, Template> TEMPLATE_CACHE = new HashMap<>();
 
     private FreemarkerUtils(Class<?> sourceClass, String templatePath) {
         this.configuration = new Configuration(Configuration.VERSION_2_3_22);
@@ -46,7 +47,7 @@ public class FreemarkerUtils {
                 TEMPLATE_CACHE.put(cacheKey, template);
             }
 
-            this.currentTemplate.set(template);
+            currentTemplate.set(template);
             return this;
         } catch (IOException var4) {
             log.error("Get template has error! The template name is : " + templateName, var4);
@@ -56,7 +57,7 @@ public class FreemarkerUtils {
 
     public void generate(Object model, OutputStream outputStream) {
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), 10240);) {
-            Template current = this.currentTemplate.get();
+            Template current = currentTemplate.get();
             if (current == null) {
                 throw new UtilException("Current Template is null!");
             } else {
@@ -66,8 +67,11 @@ public class FreemarkerUtils {
         } catch (Exception e) {
             throw new UtilException("Create a buffered writer exception!");
         } finally {
-            this.currentTemplate.remove();
+            unload();
         }
     }
 
+    public void unload() {
+        currentTemplate.remove();
+    }
 }

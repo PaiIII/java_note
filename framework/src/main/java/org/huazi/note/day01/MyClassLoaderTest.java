@@ -41,7 +41,6 @@ public class MyClassLoaderTest {
                 //defineClass将一个字节数组转为class对象，这个字节数组是class文件读取后最终的字节数组
                 return defineClass(name, data, 0, data.length);
             } catch (Exception e) {
-                e.printStackTrace();
                 throw new ClassNotFoundException();
             }
         }

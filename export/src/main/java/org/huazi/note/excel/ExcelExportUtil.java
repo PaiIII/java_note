@@ -6,6 +6,7 @@ import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import lombok.experimental.UtilityClass;
 import org.apache.poi.ss.usermodel.*;
+import org.huazi.note.word.UtilException;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.ServletOutputStream;
@@ -58,7 +59,7 @@ public class ExcelExportUtil {
             out = response.getOutputStream();
             writer.flush(out, true);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new UtilException("exportExcel is exception!");
         } finally {
             // 关闭writer，释放内存
             writer.close();

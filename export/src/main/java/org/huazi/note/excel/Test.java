@@ -22,7 +22,6 @@ public class Test {
             List<ExcelCostDTO> result = ExcelImportUtil.importExcel(inputStream, ExcelCostDTO.class, 0, 1);
             System.out.println(result);
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
