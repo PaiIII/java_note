@@ -7,6 +7,7 @@ import lombok.experimental.UtilityClass;
 
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,11 +32,11 @@ public class ExcelImportUtil {
         List<Object> header = reader.readRow(headerRowIndex);
         //导入表格表头为空
         if (CollUtil.isEmpty(header)) {
-            return null;
+            return Collections.emptyList();
         }
         //导入表格与实体类属性数量不一致
         if (getFiledName(bean).size() != header.size()) {
-            return null;
+            return Collections.emptyList();
         }
         //替换表头
         for (int i = 0; i < header.size(); i++) {

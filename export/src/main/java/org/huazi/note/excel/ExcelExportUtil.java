@@ -62,9 +62,9 @@ public class ExcelExportUtil {
         } finally {
             // 关闭writer，释放内存
             writer.close();
+            //关闭输出Servlet流
+            IoUtil.close(out);
         }
-        //关闭输出Servlet流
-        IoUtil.close(out);
     }
 
     /**
@@ -84,18 +84,23 @@ public class ExcelExportUtil {
                 } else {
                     currentRow = sheet.getRow(rowNum);
                 }
-                if (currentRow.getCell(columnNum) != null) {
-                    Cell currentCell = currentRow.getCell(columnNum);
-                    if (currentCell.getCellTypeEnum() == CellType.STRING) {
-                        int length = currentCell.getStringCellValue().getBytes().length;
-                        if (columnWidth < length) {
-                            columnWidth = length;
-                        }
-                    }
-                }
+                columnWidth = getColumnWidth(columnNum, columnWidth, currentRow);
             }
             sheet.setColumnWidth(columnNum, columnWidth * 256);
         }
+    }
+
+    private static int getColumnWidth(int columnNum, int columnWidth, Row currentRow) {
+        if (currentRow.getCell(columnNum) != null) {
+            Cell currentCell = currentRow.getCell(columnNum);
+            if (currentCell.getCellTypeEnum() == CellType.STRING) {
+                int length = currentCell.getStringCellValue().getBytes().length;
+                if (columnWidth < length) {
+                    columnWidth = length;
+                }
+            }
+        }
+        return columnWidth;
     }
 
     /**

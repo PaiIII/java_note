@@ -4,7 +4,6 @@ import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.NullCacheStorage;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +12,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +40,7 @@ public class FreemarkerUtils {
     public FreemarkerUtils setTemplate(String templateName) {
         try {
             String cacheKey = this.prefix + templateName;
-            Template template = (Template) TEMPLATE_CACHE.get(cacheKey);
+            Template template = TEMPLATE_CACHE.get(cacheKey);
             if (template == null) {
                 template = this.configuration.getTemplate(templateName);
                 TEMPLATE_CACHE.put(cacheKey, template);
@@ -55,50 +55,19 @@ public class FreemarkerUtils {
     }
 
     public void generate(Object model, OutputStream outputStream) {
-        try {
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "utf-8"), 10240);
-            Throwable var4 = null;
-
-            try {
-                this.generate(model, writer);
-            } catch (Throwable var14) {
-                var4 = var14;
-                throw var14;
-            } finally {
-                if (writer != null) {
-                    if (var4 != null) {
-                        try {
-                            writer.close();
-                            outputStream.close();
-                        } catch (Throwable var13) {
-                            var4.addSuppressed(var13);
-                        }
-                    } else {
-                        writer.close();
-                        outputStream.close();
-                    }
-                }
-
-            }
-
-        } catch (IOException var16) {
-            log.error("Create a buffered writer exception!", var16);
-            throw new UtilException("Create a buffered writer exception!", var16);
-        }
-    }
-
-    public void generate(Object model, BufferedWriter writer) {
-        try {
-            Template current = (Template) this.currentTemplate.get();
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), 10240);) {
+            Template current = this.currentTemplate.get();
             if (current == null) {
                 throw new UtilException("Current Template is null!");
             } else {
                 current.process(model, writer);
                 writer.flush();
             }
-        } catch (IOException | TemplateException var4) {
-            log.error("Template rendering exception!", var4);
-            throw new UtilException("Template rendering exception!", var4);
+        } catch (Exception e) {
+            throw new UtilException("Create a buffered writer exception!");
+        } finally {
+            this.currentTemplate.remove();
         }
     }
+
 }
